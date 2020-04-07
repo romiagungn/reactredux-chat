@@ -2,17 +2,9 @@ import React from 'react';
 import '../css/style.css'
 import '../css/timeline.css'
 import ReactMarkdown from 'react-markdown';
-import { randomColor } from './helpers';
 
 export default function ChatItem(props) {
-    const backgroundColor = randomColor();
-    const style = {
-        backgroundColor,
-        padding: '10px 16px',
-        textAlign: 'center',
-        fontSize: '24px',
-    }
-    const timestamp = props.chat.id
+    const timestamp = props.action.id
     return (
         <div className="container py-2">
             <div className="qa-message-list" id="wallmessages">
@@ -22,9 +14,9 @@ export default function ChatItem(props) {
                             <div className="avatar pull-left"><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" /></div>
                             <div className="user-detail">
                                 <div className="d-flex justify-content-between name d-flex handle" >
-                                    <h5>{props.chat.nama}</h5>
-                                    <button className="btn btn-link px-0 py-0" onClick={props.chat.sent ? props.remove : props.resend} >
-                                        {props.chat.sent ? <i className="fas fa-trash" ></i> : <i className="fas fa-repeat fa-lg"></i>}
+                                    <h5>{props.action.nama}</h5>
+                                    <button className="btn btn-link px-0 py-0" onClick={props.action.sent ? props.remove : props.resend} >
+                                        {props.action.sent ? <i className="fas fa-trash" ></i> : <i className="fas fa-repeat fa-lg"></i>}
                                     </button>
                                 </div>
                                 <div className="post-meta">
@@ -38,7 +30,7 @@ export default function ChatItem(props) {
                             </div>
                         </div>
                         <div className="qa-message-content">
-                            <ReactMarkdown source={props.chat.chat} classNameName="mb-0 text-small" />
+                            <ReactMarkdown source={props.action.chat} classNameName="mb-0 text-small" />
                         </div>
                     </div>
                 </div>

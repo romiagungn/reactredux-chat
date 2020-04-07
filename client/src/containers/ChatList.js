@@ -1,16 +1,50 @@
-import React from 'react';
-import ChatItem from './ChatItem';
 
-export default function ChatList(props) {
-    console.log(props.data, 'aaaaaaaaa')
-    const listItems = props.data.map((item, index) =>
-        <ChatItem key={index} chat={item} remove={() => props.deleteChat(item.id)}  resend={() => props.resendChat(item)} />
-    );
+import React, { Component } from 'react';
+import ChatItem from './Chat';
+import { connect } from 'react-redux';
+import { loadChat } from '../actions'
 
-    return (
-        
-        <ol>
-            {listItems}
-        </ol>
-    )
+class ChatList extends Component {
+    scrollToBottom = () => {
+        this.chatEnd.scrollIntoView({ behavior: "smooth" });
+    }
+
+    componentDidMount() {
+        this.props.loadChat();
+        this.scrollToBottom();
+    }
+
+    componentDidUpdate() {
+        this.scrollToBottom();
+    }
+
+    render() {
+        const listItems = this.props.chats.map((item, index) =>
+            <ChatItem key={index} action={{ ...item }} />
+
+        );
+
+        return (
+
+            <ol>
+                {listItems}
+                <div style={{ float: "left", clear: "both" }}
+                    ref={(el) => { this.chatEnd = el; }}>
+                </div>
+            </ol >
+        )
+    }
 }
+
+const mapStateToProps = (state) => ({
+    chats: state.chats
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    loadChat: () => dispatch(loadChat())
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ChatList)

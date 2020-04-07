@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     chat.create({id: req.body.id, nama: req.body.nama, chat: req.body.chat })
       .then(chatItem => {
         res.status(200).json({
-          chatAdded: chatItem
+          chatItem
         })
       }).catch(err => {
         res.status(500).send({

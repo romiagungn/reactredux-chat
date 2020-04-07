@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { postChat } from '../actions';
+import { connect } from 'react-redux';
 import '../css/style.css'
 
-export default class ChatFrom extends Component {
+class ChatFrom extends Component {
     constructor(props) {
         super(props);
         this.state = { nama: '', chat: '' };
@@ -17,8 +19,7 @@ export default class ChatFrom extends Component {
     }
 
     handleSubmit(event) {
-        const id = Date.now()
-        this.props.addChat({ id, nama: this.state.nama, chat: this.state.chat, sent: true })
+        this.props.addChat(this.state.nama, this.state.chat )
         this.setState({ chat: '' })
         // alert('A name was submitted: ' + this.state.value);
         event.preventDefault();
@@ -54,3 +55,12 @@ export default class ChatFrom extends Component {
         );
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+    addChat: (nama, chat) => dispatch(postChat(nama, chat))
+})
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(ChatFrom)
